@@ -12,25 +12,20 @@ var str = "Hello, playground"
  */
 
 let nums = [2, 7, 11, 15, 14]
-let target = 26
+let target = 29
 
 func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
     
-    for (firstIndex, firstItem) in nums.enumerated() {
-        //拿到第一个, 然后从第一个开始向后拿
-//        print("first item : \(firstItem), \(firstIndex)")
-        for (secondIndex, secondItem) in nums.enumerated() {
-            if secondIndex > firstIndex {
-                print("first item : \(firstItem), \(secondItem)")
-                if firstItem + secondItem == target {
-                    return [firstIndex, secondIndex]
-                }
-            }
+    var map = [Int : Int]()
+    for (index, item) in nums.enumerated() {
+        if let mapIndex = map.index(forKey: target - item) {
+            return [map[mapIndex].value, index]
+        }
+        else {
+            map[item] = index
         }
     }
-    
     return []
 }
-
 
 twoSum(nums, target)
