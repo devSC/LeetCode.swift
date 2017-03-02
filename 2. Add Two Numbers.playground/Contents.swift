@@ -21,15 +21,15 @@ public class ListNode: CustomStringConvertible {
     }
 }
 
-let node1 = ListNode(2)
-let node2 = ListNode(4)
+let node1 = ListNode(0)
+let node2 = ListNode(7)
 let node3 = ListNode(3)
 node2.next = node3
 node1.next = node2
 
-let node4 = ListNode(5)
+let node4 = ListNode(3)
 let node5 = ListNode(6)
-let node6 = ListNode(1)
+let node6 = ListNode(0)
 node5.next = node6
 node4.next = node5
 
@@ -52,19 +52,33 @@ class Solution {
         
         let node1Number = nodeNumbers(l1)
         let node2Number = nodeNumbers(l2)
+        var enumNumbers = [Int]()
+        var anotherNumbers = [Int]()
+        
+        if node1Number.count >= node2Number.count {
+            enumNumbers = node1Number
+            anotherNumbers = node2Number
+        }
+        else {
+            enumNumbers = node2Number
+            anotherNumbers = node1Number
+        }
         
         var result: ListNode?
         var lastNode: ListNode?
         var upValue: Int = 0
         
-        for (index, item) in node1Number.enumerated() {
+        for (index, item) in enumNumbers.enumerated() {
             //
-            let node2Item = node2Number[index]
-            var value = item + node2Item + upValue
-            print(value)
-            if value == 10 {
-                value = 0
-                upValue = 1;
+            var value = item + upValue
+            if index < anotherNumbers.count {
+                let node2Item = anotherNumbers[index]
+                value = node2Item + value
+            }
+            
+            if value >= 10 {
+                upValue = 1
+                value = value - 10
             }
             else {
                 upValue = 0;
@@ -78,11 +92,15 @@ class Solution {
                 result = node
                 lastNode = node
             }
-            
+            //check is last object
+            if index == enumNumbers.count - 1 && upValue > 0 {
+                let node = ListNode(upValue)
+                lastNode!.next = node
+            }
         }
         return result
     }
 }
 
 let solution = Solution()
-solution.addTwoNumbers(node1, node4)
+solution.addTwoNumbers(node6, node2)
