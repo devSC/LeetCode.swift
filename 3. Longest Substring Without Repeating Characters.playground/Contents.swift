@@ -1,4 +1,4 @@
-//: Playground - noun: a place where people can play
+//: Longest Substring Without Repeating Characters
 
 import UIKit
 
@@ -15,5 +15,26 @@ Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer 
 */
 
 func lengthOfLongestSubstring(_ s: String) -> Int {
-    return 0
+    
+    var maxLength = 0
+    /// last no repeating char index
+    var pre = 0
+    /// current location
+    var loc = 0
+    var positionCharMap: [Character : Int] = [:]
+    
+    for c in s.characters {
+        if let preloc = positionCharMap[c] {
+            pre = preloc + 1 > pre ? preloc + 1 : pre
+        }
+        positionCharMap[c] = loc
+        maxLength = loc - pre + 1 > maxLength ? loc - pre + 1 : maxLength
+        loc += 1
+    }
+    
+    return maxLength
 }
+
+lengthOfLongestSubstring("abcabcbb")
+lengthOfLongestSubstring("bbbbb")
+lengthOfLongestSubstring("pwwkew")
