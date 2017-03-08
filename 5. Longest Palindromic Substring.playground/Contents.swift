@@ -19,6 +19,37 @@ Output: "bb"
  
 */
 
+//public class Solution {
+//    private var int:Int = 0, lo: Int = 0, maxLen: Int = 0;
+//    
+//    public func longestPalindrome(s: String) -> String {
+//        
+//        let len = s.characters.count
+//        if (len < 2) {
+//            return s
+//        }
+//    
+//        for (int i = 0; i < len-1; i++) {
+//            extendPalindrome(s, i, i);  //assume odd length, try to extend Palindrome as possible
+//            extendPalindrome(s, i, i+1); //assume even length.
+//        }
+//        
+//        return s.substring(lo, lo + maxLen);
+//    }
+//    
+//    private func extendPalindrome(s: String, j: Int, k: Int) {
+//        while (j >= 0 && k < s.characters.count && s.charAt(j) == s.charAt(k)) {
+//            j--;
+//            k++;
+//        }
+//        if (maxLen < k - j - 1) {
+//            lo = j + 1;
+//            maxLen = k - j - 1;
+//        }
+//    }
+//}
+
+
 class Solution {
     func longestPalindrome(_ s: String) -> String {
         
