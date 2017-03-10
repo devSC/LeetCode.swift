@@ -19,71 +19,66 @@ Output: "bb"
  
 */
 
-//public class Solution {
-//    private var int:Int = 0, lo: Int = 0, maxLen: Int = 0;
-//    
-//    public func longestPalindrome(s: String) -> String {
-//        
-//        let len = s.characters.count
-//        if (len < 2) {
-//            return s
-//        }
-//    
-//        for (int i = 0; i < len-1; i++) {
-//            extendPalindrome(s, i, i);  //assume odd length, try to extend Palindrome as possible
-//            extendPalindrome(s, i, i+1); //assume even length.
-//        }
-//        
-//        return s.substring(lo, lo + maxLen);
-//    }
-//    
-//    private func extendPalindrome(s: String, j: Int, k: Int) {
-//        while (j >= 0 && k < s.characters.count && s.charAt(j) == s.charAt(k)) {
-//            j--;
-//            k++;
-//        }
-//        if (maxLen < k - j - 1) {
-//            lo = j + 1;
-//            maxLen = k - j - 1;
-//        }
-//    }
-//}
-
-
-class Solution {
-    func longestPalindrome(_ s: String) -> String {
-        
-        guard s.characters.count >= 2 else {
-            return s
-        }
-        
-        var maxLength: Int = 0
-        var location: Int = 0
-        let characters = s.characters
-        
-        for (index, char) in characters.enumerated() {
-            
-            print("char: \(char), index: \(index)")
-            let charStartIndex = characters.index(of: char)!
-            
-            if index + 1 < characters.count {
-                let charEndIndex = characters.index(charStartIndex, offsetBy: 1)
-                let nextChar = characters[charEndIndex]
-                //
-                print("nextChar: \(nextChar)")
-            }
-
-//            let nextCharIndex = index + 1
-//            if nextCharIndex < characters.count {
-//                let nextChar = characters[nextCharIndex]
-//                
-//            }
-        }
-        
-        return s
+private extension String {
+    subscript (range: Range<Int>) -> String {
+        return self[self.characters.index(self.startIndex, offsetBy: range.lowerBound)..<self.characters.index(self.startIndex, offsetBy: range.upperBound, limitedBy: self.endIndex)!]
+    }
+    /*
+     Ref: http://oleb.net/blog/2014/07/swift-strings/
+     "Because of the way Swift strings are stored, the String type does not support random access to its Characters via an integer index — there is no direct equivalent to NSStringʼs characterAtIndex: method. Conceptually, a String can be seen as a doubly linked list of characters rather than an array."
+     
+     By creating and storing a seperate array of the same sequence of characters,
+     we could hopefully achieve amortized O(1) time for random access.
+     */
+    func randomAccessCharactersArray() -> [Character] {
+        return Array(self.characters)
     }
 }
 
-let solution = Solution()
+struct Solution {
+    // t = O(N^2), s = O(1)
+    static func longestPalindrome(_ s: String) -> String {
+        guard s.characters.count > 1 else {
+            return s
+        }
+        var startIndex: Int = 0
+        var maxLen: Int = 1
+        var i = 0
+        let charArr = s.randomAccessCharactersArray()
+        while i < s.characters.count {
+//            print("s.characters.count - i: \(s.characters.count - i), maxLen / 2: \(maxLen / 2)")
+            guard s.characters.count - i > maxLen / 2 else {
+                break
+            }
+            var j = i
+            var k = i
+            print("i: \(i), j: \(j), k: \(k)")
+            //judge if string is like: aaaaa
+            while k < s.characters.count - 1 && charArr[k+1] == charArr[k] {
+                print("one: \(charArr[k+1]) == \(charArr[k])")
+                k += 1
+            }
+            i = k + 1
+            print("i: \(i), j: \(j), k: \(k)")
+            while k < s.characters.count - 1 && j > 0 && charArr[k+1] == charArr[j-1] {
+                print("two: \(charArr[k+1]) == \(charArr[j-1]), j:\(j)")
+                k += 1
+                j -= 1
+            }
+            print("i: \(i), j: \(j), k: \(k)")
+            let newLen = k - j + 1
+            print("newLen: \(newLen) \n\n")
+            if newLen > maxLen {
+                startIndex = j
+                maxLen = newLen
+            }
+        }
+        return String(charArr[startIndex ..< (startIndex + maxLen)])
+    }
+}
 
-solution.longestPalindrome("babad")
+//Solution.longestPalindrome("babad")
+//Solution.longestPalindrome("aabcd")
+//Solution.longestPalindrome("aabaada")
+//Solution.longestPalindrome("aaba")
+Solution.longestPalindrome("cbbd")
