@@ -17,6 +17,7 @@ Input: "cbbd"
 
 Output: "bb"
  
+ #https://segmentfault.com/a/1190000006875558
 */
 
 private extension String {
@@ -77,8 +78,57 @@ struct Solution {
     }
 }
 
+
+class Solutions {
+    static func longestPalindrome(s: String) -> String {
+        
+        var charactersArr = Array<Character>()
+        var resultString = String()
+        var maxPoint = 0
+        
+        charactersArr.append("$")
+        for character in s.characters {
+            charactersArr.append("#")
+            charactersArr.append(character)
+        }
+        charactersArr.append("#")
+        charactersArr.append("%")
+        
+        var rightMax = 0, middlePoint = 0
+        var lenArray = Array(repeating: 1, count: charactersArr.count)
+        lenArray.count
+        for i in 1 ..< 2 * s.characters.count + 2 {
+            print("i: \(i)")
+            if rightMax > i {
+                lenArray[i] = min(rightMax - i, lenArray[2 * middlePoint - i])
+            }
+            
+            while charactersArr[i - lenArray[i]] == charactersArr[i + lenArray[i]] {
+                lenArray[i] += 1
+            }
+            print("lenArray: \(lenArray)")
+            if lenArray[i] + i > rightMax {
+                middlePoint = i
+                rightMax = lenArray[i] + i
+            }
+            
+            if lenArray[i] > lenArray[maxPoint] {
+                maxPoint = i
+            }
+        }
+        
+        for i in stride(from: maxPoint - (lenArray[maxPoint] - 2), to: maxPoint + (lenArray[maxPoint] - 1), by: 2) {
+            resultString.append(charactersArr[i])
+        }
+        
+        return resultString
+    }
+}
+
+
 //Solution.longestPalindrome("babad")
 //Solution.longestPalindrome("aabcd")
 //Solution.longestPalindrome("aabaada")
 //Solution.longestPalindrome("aaba")
 Solution.longestPalindrome("cbbd")
+Solutions.longestPalindrome(s: "aabbcbbaa")
