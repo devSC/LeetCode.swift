@@ -43,66 +43,21 @@ import Foundation
 
 class Solution {
     static func findRadius(_ houses: [Int], _ heaters: [Int]) -> Int {
+        var i = 0, radius = 0
+        let houses = houses.sorted(), heaters = heaters.sorted()
         
-        func removeDepulicate(houses: [Int], heaters: [Int]) -> [Int] {
-            var info: [Int: Int] = [:]
-            for position in houses {
-                info[position] = 1
+        for house in houses {
+            while i < heaters.count - 1 && 2 * house >= heaters[i] + heaters[i + 1]  {
+                i += 1
             }
-            
-            for position in heaters {
-                info[position] = 1
-            }
-            
-            let arrays = info.keys.sorted() {$0 < $1}
-            return arrays
+            print("\(i)")
+            radius = max(radius, abs(house - heaters[i]))
         }
-        
-        let allPosition = removeDepulicate(houses: houses, heaters: heaters)
-        //index of hearts, 
-        var heaterIndexsAtHouses = [Int]()
-        for position in heaters {
-            guard let index = allPosition.index(of: position) else {
-                continue
-            }
-            heaterIndexsAtHouses.append(index)
-        }
-        
-        //calculate max len to edge
-        var maxLen: Int = 0
-        if heaterIndexsAtHouses.count == 1 {
-            let index = heaterIndexsAtHouses.first!
-            let position = allPosition[index]
-            let toStart = ceil(Double(position - houses.first!))
-            let toEnd = ceil(Double((houses.last!) - position));
-            maxLen = max(Int(toStart), Int(toEnd))
-        }
-        else {
-            //middle index
-            for (position, index) in heaterIndexsAtHouses.enumerated() {
-                
-                guard index + 1 < heaterIndexsAtHouses.count else {
-                    break
-                }
-                
-                let nextPosition = heaterIndexsAtHouses[index + 1]
-                let inter = nextPosition - position - 1
-                let interRadius = Int(ceil(Double(inter) / 2.0))
-                if maxLen < interRadius {
-                    maxLen = interRadius
-                }
-            }
-            
-            let toStart = heaterIndexsAtHouses.first!
-            let toEnd = (houses.last!) - heaterIndexsAtHouses.last! - 1;
-            let maxValue = max(toStart, toEnd)
-            maxLen = max(maxLen, maxValue)
-        }
-        return maxLen
+        return radius
     }
 }
 
-//Solution.findRadius([1, 2, 3, 4, 5, 6], [1, 3]) //3
-//Solution.findRadius([2, 4, 5, 6], [1, 3]) //3
-//Solution.findRadius([1, 2, 10], [2, 9]) //7
+Solution.findRadius([1, 2, 3, 4, 5, 6], [1, 3]) //3
+Solution.findRadius([2, 4, 5, 6], [1, 3]) //3
+Solution.findRadius([1, 2, 10], [2, 9]) //1
 Solution.findRadius([1,2,3,5,15], [2,30]) //13
