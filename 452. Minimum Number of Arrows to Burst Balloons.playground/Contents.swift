@@ -28,8 +28,11 @@ class Solution {
     
     func findMinArrowShots(_ points: [[Int]]) -> Int {
         
-        //sort
-        if points.count == 1 {
+        guard points.count > 0 else {
+            return 0
+        }
+        
+        guard points.count > 1 else {
             return 1
         }
         //sort with ascending
