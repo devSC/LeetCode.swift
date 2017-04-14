@@ -10,8 +10,8 @@
  The signature of the C++ function had been updated. If you still see your function signature accepts a const char * argument, please click the reload button  to reset your code definition.
  
  规则: 跳过前面的空格字符，直到遇上数字或正负号才开始做转换，而再遇到非数字或字符串时（'\0'）才结束转化，并将结果返回（返回转换后的整型数）。
-
-*/
+ 
+ */
 
 import Foundation
 
@@ -27,22 +27,30 @@ class Solution {
         //1.trim the prefix
         var validChar: Character?
         var stop: Bool = false
-        var symbolInt = 1
         var validSymbol: [Character] = ["+", "-"]
         var index = 0
+        
         var numberString: String = ""
-
+        var symbolInt = 1
+        
         while stop == false && index < chars.count {
             
             let char = chars[index]
-            print("char: \(char)")
-            if validChar != nil {
-                
-                if char >= "0" && char <= "9" {
+            
+            if char != " " {
+                //begin
+                if validChar == nil && validSymbol.contains(char) {
+                    validChar = char
+                }
+                else if char >= "0" && char <= "9" { //
+                    
                     //check number
                     numberString.append(char)
                     
                     //check if reach max value
+                    if let symbol = validChar, symbol == "-" {
+                        symbolInt = -1
+                    }
                     var max_value = Int(Int32.max)
                     if symbolInt < 0 {
                         max_value = Int(fabs(Double(Int32.min)))
@@ -56,38 +64,24 @@ class Solution {
                 else if !(validSymbol.contains(char) && index == 0) {
                     stop = true
                 }
-                index += 1
             }
-            else {
-                ///is + or - symbol
-                if validSymbol.contains(char) {
-                    validChar = char
-                    if char == "-" {
-                        symbolInt = -1
-                    }
-                    index += 1
-                }
-                else {
-                    if char != " " {
-                        validChar = char
-                    }
-                    else {
-                        index += 1
-                    }
-                }
+            else if numberString.isEmpty == false || validChar != nil {
+                stop = true
             }
+            index += 1
         }
-        numberString
+        
         //3. return valid number
         guard let number = Int64(numberString) else {
             return 0
         }
-
+        
         //4. append symbol
         var result = number * Int64(symbolInt)
         return Int(result)
     }
 }
+Solution().myAtoi("   - 321")
 Solution().myAtoi("-9223372036854775809")
 Solution().myAtoi("9223372036854775809")
 Solution().myAtoi("2147483648")
