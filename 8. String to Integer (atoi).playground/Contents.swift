@@ -8,68 +8,89 @@
  
  Update (2015-02-10):
  The signature of the C++ function had been updated. If you still see your function signature accepts a const char * argument, please click the reload button  to reset your code definition.
+ 
+ 规则: 跳过前面的空格字符，直到遇上数字或正负号才开始做转换，而再遇到非数字或字符串时（'\0'）才结束转化，并将结果返回（返回转换后的整型数）。
+
 */
 
 import Foundation
-//http://bookshadow.com/weblog/2016/01/22/leetcode-string-to-integer-atoi/
-//class Solution {
-//    func myAtoi(_ str: String) -> Int {
-//        return 0
-//    }
-//}
 
 class Solution {
     func myAtoi(_ str: String) -> Int {
-        var res = 0
-        var flag = 1
+        
+        guard !str.isEmpty else {
+            return 0
+        }
+        
+        let chars: [Character] = Array(str.characters)
+        
+        //1.trim the prefix
+        var validChar: Character?
+        var symbolInt = 1
+        var validSymbol: [Character] = ["+", "-"]
         var index = 0
-        let int_max = 2147483647
-        let int_min = -2147483648
-        
-        // trim
-        let content = [Character](str.characters)
-        while index < content.count {
-            guard content[index] == " " else {
-                break
-            }
-            index += 1
-        }
-        guard index < content.count else {
-            return res
-        }
-        
-        // handle flag
-        if content[index] == "-" {
-            flag = -1
-            index += 1
-        } else if content[index] == "+" {
-            index += 1
-        }
-        
-        while index < content.count {
-            guard _isDigit(content[index]) else {
-                break
-            }
-            
-            res = res * 10 + Int(String(content[index]))!
-            
-            if res >= int_max {
-                if flag == 1 {
-                    return int_max
-                } else if res > int_max && flag == -1 {
-                    return int_min
+
+        while validChar == nil && index < chars.count {
+            let char = chars[index]
+            ///is + or - symbol
+            if validSymbol.contains(char) {
+                validChar = char
+                if char == "-" {
+                    symbolInt = -1
                 }
             }
-            
+            else if char != " " {
+                validChar = char
+            }
+            else {
+                index += 1
+            }
+        }
+        
+        let validChars = Array(chars[index..<chars.count])
+        
+        //2.find valid char
+        index = 0
+        var stop: Bool = false
+        var numberString: String = ""
+        
+        var max_value = Int(Int32.max)
+        if symbolInt < 0 {
+            max_value = Int(fabs(Double(Int32.min)))
+        }
+        
+        while stop == false && index < validChars.count {
+            let char = validChars[index]
+            if char >= "0" && char <= "9" {
+                //check number
+                numberString.append(char)
+                
+                if Int(numberString)! > max_value {
+                    numberString = String(max_value)
+                    stop = true
+                }
+            }
+            else if !(validSymbol.contains(char) && index == 0) {
+                stop = true
+            }
             index += 1
         }
         
-        return flag * res
-    }
-    
-    private func _isDigit(_ char: Character) -> Bool {
-        return char >= "0" && char <= "9"
+        //3. return valid number
+        guard let number = Int64(numberString) else {
+            return 0
+        }
+        
+        //4. append symbol
+        var result = number * Int64(symbolInt)
+        return Int(result)
     }
 }
-
-Solution().myAtoi("w31s1g2s8g9q9e2r")
+Solution().myAtoi("-9223372036854775809")
+Solution().myAtoi("9223372036854775809")
+Solution().myAtoi("2147483648")
+Solution().myAtoi("+-2")
+Solution().myAtoi("    123456")
+Solution().myAtoi("   12a12")
+Solution().myAtoi("123  123")
+Solution().myAtoi("-123123")
