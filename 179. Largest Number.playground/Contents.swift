@@ -12,7 +12,7 @@ import Foundation
 
 class Solution {
     
-    func largestNumber(_ numbers: [Int]) -> String {    
+    func largestNumber(_ numbers: [Int]) -> String {
         //1.0 map to str array and sort the array
         let array = numbers.map { String($0) }.sorted { (str1, str2) -> Bool in
             let prefixChar1 = Array(str1.characters).first!
