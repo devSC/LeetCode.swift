@@ -11,8 +11,24 @@
 import Foundation
 
 class Solution {
-    func largestNumber(_ numbers: [Int]) -> String {
-        
-        return "string."
+    
+    func largestNumber(_ numbers: [Int]) -> String {    
+        //1.0 map to str array and sort the array
+        let array = numbers.map { String($0) }.sorted { (str1, str2) -> Bool in
+            let prefixChar1 = Array(str1.characters).first!
+            let prefixChar2 = Array(str2.characters).first!
+            
+            if prefixChar1 == prefixChar2 {
+                return Int(str1)! > Int(str2)!
+            }
+            return prefixChar1 > prefixChar2
+        }
+        //2.0 get the result
+        let result = array.reduce("") { (result, string) -> String in
+            return result.appending(string)
+        }
+        return result
     }
-};
+}
+
+Solution().largestNumber([3, 30, 34, 5, 9])
