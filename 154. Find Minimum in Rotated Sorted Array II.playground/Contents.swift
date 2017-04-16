@@ -36,3 +36,29 @@ class Solution {
 Solution().findMin([4, 5, 6, 7, 0, 1, 2])
 Solution().findMin([3,1,1])
 Solution().findMin([3,1,3])
+
+//二分法
+class Solution1 {
+    func findMin(_ nums: [Int]) -> Int {
+        
+        var left = 0, right = nums.count - 1
+        
+        while left < right {
+            let mid = (left + right) / 2
+            if nums[mid] > nums[right] {
+                left = mid + 1
+            }
+            else if nums[mid] < nums[right] {
+                right = mid
+            }
+            else {
+                right -= 1
+            }
+        }
+        return nums[left]
+    }
+}
+
+Solution1().findMin([3,1,3])
+Solution1().findMin([4, 5, 6, 7, 0, 1, 2])
+Solution1().findMin([3,1,1])
