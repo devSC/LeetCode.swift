@@ -10,3 +10,23 @@
 */
 
 import Foundation
+
+class Solution {
+    func findMin(_ nums: [Int]) -> Int {
+        
+        var left = 0, right = nums.count - 1
+        //find the middle
+        while left < right && nums[left] > nums[right] {
+            let middle = (left + right) / 2
+            if nums[middle] > nums[right] {
+                left = middle + 1
+            }
+            else if nums[middle] < nums[right] {
+                right = middle
+            }
+        }
+        return nums[left]
+    }
+}
+
+Solution().findMin([4, 5, 6, 7, 0, 1, 2])
