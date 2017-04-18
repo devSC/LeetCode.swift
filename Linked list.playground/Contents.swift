@@ -17,7 +17,7 @@ class ListNode {
 
 extension ListNode: CustomStringConvertible {
     var description: String {
-        return "val: \(val), next: \(next)"
+        return "\(val), next: \(next)"
     }
 }
 
@@ -34,8 +34,8 @@ node2.next = node3
 node3.next = node4
 node4.next = node5
 
-class LeftList {
-    static func getLeftList(_ head: ListNode?, _ x: Int) -> ListNode? {
+class Solution {
+    static func removeNode(_ head: ListNode?, at x: Int) -> ListNode? {
         
         let dummy = ListNode(0)
         var pre = dummy
@@ -65,34 +65,7 @@ class LeftList {
     }
 }
 
-//LeftList.getLeftList(node, 3)
-
-/*: 快行指针:
- 两个指针访问链表，一个在前一个在后，或者一个移动快另一个移动慢，这就是快行指针。
-*/
-let node6 = ListNode(3)
-node5.next = node6
-node6.next = node4
-
-class FastPointer {
-    static func haveCycle(_ head: ListNode?) -> Bool {
-        var slow = head
-        var fast = head
-        
-        while fast != nil && fast!.next != nil {
-            slow = slow?.next
-            fast = fast?.next?.next
-            
-            if slow === fast {
-                return true
-            }
-        }
-        
-        return false
-    }
-}
-
-FastPointer.haveCycle(node)
+Solution.removeNode(node, at: 3)
 
 
 
