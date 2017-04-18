@@ -1,4 +1,10 @@
 //: Stack
+/*: For stack:
+ 1. 栈是后进先出的结构。你可以理解成有好几个盘子要垒成一叠，哪个盘子最后叠上去，下次使用的时候它就最先被抽出去。
+ 2. 在iOS开发中，如果你要在你的App中添加撤销操作（比如删除图片，恢复删除图片），那么栈是首选数据结构
+ 3. 无论在面试还是写App中，只关注栈的这几个基本操作：push, pop, isEmpty, peek, size。
+*/
+
 
 import Foundation
 
@@ -10,9 +16,7 @@ class Stack {
     var size: Int { return stack.count }
     
     ///栈顶
-    var peek: Any? {
-        return stack.first
-    }
+    var peek: Any? { return stack.first }
     
     fileprivate var stack: [Any]
     
