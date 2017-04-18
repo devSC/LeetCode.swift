@@ -1,5 +1,11 @@
-//: Playground - noun: a place where people can play
-
+/*: 141. Linked List Cycle
+ 
+ Given a linked list, determine if it has a cycle in it.
+ 
+ Follow up:
+ Can you solve it without using extra space?
+ 
+*/
 import UIKit
 
 class ListNode {
@@ -30,9 +36,7 @@ node1.next = node2
 node2.next = node3
 node3.next = node4
 node4.next = node5
-let node6 = ListNode(8)
-node5.next = node6
-//node6.next = node2 please test in project
+node5.next = node2 //please test in project
 
 class Solution {
     static func haveCycle(_ head: ListNode?) -> Bool {
