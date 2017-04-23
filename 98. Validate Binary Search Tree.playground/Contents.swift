@@ -23,19 +23,52 @@ import Foundation
 
 /**
  * Definition for a binary tree node.
- * public class TreeNode {
- *     public var val: Int
- *     public var left: TreeNode?
- *     public var right: TreeNode?
- *     public init(_ val: Int) {
- *         self.val = val
- *         self.left = nil
- *         self.right = nil
- *     }
- * }
  */
-class Solution {
-    func isValidBST(_ root: TreeNode?) -> Bool {
-        
+public class TreeNode {
+    public var val: Int
+    public var left: TreeNode?
+    public var right: TreeNode?
+    public init(_ val: Int) {
+        self.val = val
+        self.left = nil
+        self.right = nil
     }
 }
+
+class Solution {
+    func isValidBST(_ root: TreeNode?) -> Bool {
+        return helper(node: root, max: nil, min: nil)
+    }
+    
+    private func helper(node: TreeNode?, max: Int?, min: Int?) -> Bool {
+        guard let node = node else {
+            return true
+        }
+        if let min = min, node.val <= min {
+            return false
+        }
+        
+        if let max = max, node.val >= max {
+            return false
+        }
+        return helper(node: node.left, max: node.val, min: min) && helper(node: node.right, max: max, min: node.val)
+    }
+}
+
+let node = TreeNode(6)
+let left = TreeNode(4)
+left.left = TreeNode(3)
+left.right = TreeNode(5)
+
+node.left = left
+node.right = TreeNode(7)
+Solution().isValidBST(node)
+
+/*
+ Print:
+ max: nil, val: 6, min: nil
+ max: Optional(6), val: 4, min: nil
+ max: Optional(4), val: 3, min: nil
+ max: Optional(6), val: 5, min: Optional(4)
+ max: nil, val: 7, min: Optional(6)
+ */
