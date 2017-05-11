@@ -27,7 +27,47 @@
 import Foundation
 
 class Solution {
+    
+    var memo = [String : [Int]]()
+    let calculateChar: [Character] = ["+", "-", "*"]
+    
     func diffWaysToCompute(_ input: String) -> [Int] {
+        if let nums = memo[input] {
+            return nums
+        }
         
+        var result = [Int]()
+        let chars = Array(input.characters)
+        
+        for (i, char) in chars.enumerated() {
+            guard calculateChar.contains(char) else {
+                continue
+            }
+            let leftResults = diffWaysToCompute(String(chars[0 ..< i]))
+            let rightResults = diffWaysToCompute(String(chars[i+1 ..< chars.count]))
+            
+            for leftRes in leftResults {
+                for rightRes in rightResults {
+                    if char == "+" {
+                        result.append(leftRes + rightRes)
+                    }
+                    if char == "-" {
+                        result.append(leftRes - rightRes)
+                    }
+                    if char == "*" {
+                        result.append(leftRes * rightRes)
+                    }
+                }
+            }
+        }
+        
+        if result.count == 0 {
+            result.append(Int(input)!)
+        }
+        
+        memo[input] = result
+        return result
     }
 }
+
+Solution().diffWaysToCompute("2*3-4*5")
