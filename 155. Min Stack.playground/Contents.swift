@@ -23,12 +23,29 @@ import Foundation
 class MinStack {
     fileprivate var stack: [Int] = []
     
+    private var min: Int? = Int.max
+    private var minStack: [Int] = []
+    
+    init() {
+        self.minStack.append(self.min!)
+    }
+    
     func push(x: Int) {
+        if let min = min, x < min {
+            self.min = x
+            minStack.append(x)
+        }
         stack.append(x)
     }
     
     func pop() {
-        stack.removeLast()
+        let last = stack.removeLast()
+        if last == min {
+            //refresh the min value
+            minStack.removeLast()
+            min = minStack.last
+        }
+        
     }
     
     func top() -> Int? {
@@ -36,7 +53,7 @@ class MinStack {
     }
     
     func getMin() -> Int? {
-        return stack.sorted() { $0 < $1 }.first
+        return min
     }
 }
 
