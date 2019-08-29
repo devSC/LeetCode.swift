@@ -56,6 +56,14 @@ class Solution {
         pre.next = tailNode.next
         return header.next
     }
+    
+    static func printAllValue(_ node: ListNode) {
+        var node: ListNode? = node
+        while node != nil {
+            print("value: \(String(describing: node?.value))")
+            node = node?.next
+        }
+    }
 }
 let node = ListNode(1)
 let node1 = ListNode(5)
@@ -72,3 +80,5 @@ node4.next = node5
 node
 
 Solution.removeNode(node, at: 3)
+
+Solution.printAllValue(node)
