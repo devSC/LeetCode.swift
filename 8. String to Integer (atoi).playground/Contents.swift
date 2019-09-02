@@ -17,68 +17,53 @@ import Foundation
 
 class Solution {
     func myAtoi(_ str: String) -> Int {
-        
-        guard !str.isEmpty else {
-            return 0
-        }
-        
-        let chars: [Character] = Array(str.characters)
-        
-        //1.trim the prefix
-        var validChar: Character?
-        var stop: Bool = false
-        var validSymbol: [Character] = ["+", "-"]
+        var stop = false
         var index = 0
-        
-        var numberString: String = ""
+        let chars: [Character] = Array(str)
+        var validSymbol: Character?
+        let validSymbols: [Character] = ["+", "-"]
         var symbolInt = 1
-        
-        while stop == false && index < chars.count {
-            
+        var resultString = ""
+        while stop == false && index < str.count {
             let char = chars[index]
-            
             if char != " " {
-                //begin
-                if validChar == nil && validSymbol.contains(char) {
-                    validChar = char
-                }
-                else if char >= "0" && char <= "9" { //
-                    
-                    //check number
-                    numberString.append(char)
-                    
-                    //check if reach max value
-                    if let symbol = validChar, symbol == "-" {
-                        symbolInt = -1
-                    }
-                    var max_value = Int(Int32.max)
-                    if symbolInt < 0 {
-                        max_value = Int(fabs(Double(Int32.min)))
-                    }
-                    
-                    if Int(numberString)! > max_value {
-                        numberString = String(max_value)
+                if validSymbols.contains(char) {
+                    if validSymbol == nil {
+                        validSymbol = char
+                        symbolInt = char == "+" ? 1 : -1
+                    } else {
                         stop = true
                     }
-                }
-                else if !(validSymbol.contains(char) && index == 0) {
+                } else if char >= "0" && char <= "9" {
+                    resultString.append(char)
+                    //check if reach max value
+                    if validSymbol == nil {
+                        validSymbol = "+"
+                    }
+                    var maxValue: Int {
+                        if validSymbol == "+" {
+                            return Int(Int32.max)
+                        } else {
+                            return Int(fabs(Double(Int32.min)))
+                        }
+                    }
+                    if Int(resultString)! > maxValue {
+                        stop = true
+                        resultString = String(maxValue)
+                    }
+                } else {
                     stop = true
                 }
             }
-            else if numberString.isEmpty == false || validChar != nil {
+            else if !resultString.isEmpty || validSymbol != nil {
                 stop = true
             }
             index += 1
         }
         
-        //3. return valid number
-        guard let number = Int64(numberString) else {
-            return 0
-        }
-        
-        //4. append symbol
-        var result = number * Int64(symbolInt)
-        return Int(result)
+        guard let result = Int(resultString) else { return 0 }
+
+        return result * symbolInt
     }
 }
 Solution().myAtoi("   - 321")
@@ -91,3 +76,7 @@ Solution().myAtoi("   12a12")
 Solution().myAtoi("123  123")
 Solution().myAtoi("-123123")
 Solution().myAtoi("     +004500")
+Solution().myAtoi("words and 987")
+Solution().myAtoi("0-1")
+Solution().myAtoi("-13+8")
+Solution().myAtoi("  +b12102370352")
