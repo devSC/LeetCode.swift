@@ -5,7 +5,7 @@ import UIKit
 //思路：先找到 s 字符串最大长度收尾相同的子串。遍历查找时如果出现未匹配的情况，则只需要将匹配字符串向后移动相应（已匹配的头尾相同的）长度即可。
 
 struct Solution {
-    
+    //s 文本串 p 模式串
     static func kmp(_ s: String, p: String) -> Int {
         let sChar: [Character] = Array(s)
         let pChar: [Character] = Array(p)
