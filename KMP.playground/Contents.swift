@@ -1,6 +1,9 @@
 import UIKit
 
 //有一个文本串S，和一个模式串P，现在要查找P在S中的位置，怎么查找呢？
+
+//思路：先找到 s 字符串最大长度收尾相同的子串。遍历查找时如果出现未匹配的情况，则只需要将匹配字符串向后移动相应（已匹配的头尾相同的）长度即可。
+
 struct Solution {
     
     static func kmp(_ s: String, p: String) -> Int {
