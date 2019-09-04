@@ -17,6 +17,7 @@ import UIKit
  */
 
 
+//时间复杂度： O(n)
 func canFind(_ target: Int, in matrix: [[Int]]) -> Bool {
     guard !matrix.isEmpty else {
         return false
@@ -42,6 +43,7 @@ func canFind(_ target: Int, in matrix: [[Int]]) -> Bool {
     }
     return false
 }
+
 
 let matrix = [
     [1,2,3,4],
