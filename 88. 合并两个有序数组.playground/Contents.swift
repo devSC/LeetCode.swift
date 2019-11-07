@@ -54,7 +54,7 @@ class Solution {
         var result: [Int] = []
         var p = 0 //m
         var q = 0 //n
-        
+        //创建一个新数组
         while (p < m) && (q < n) {
             let pValue = nums1[p]
             let qValue = nums2[q]
