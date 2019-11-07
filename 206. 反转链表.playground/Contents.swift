@@ -55,7 +55,7 @@ class Solution {
             //移动 P 指针
             p = temp
         }
-        //返回反转后的链表头结点   
+        //返回反转后的链表头结点
         return newH
     }
 }
