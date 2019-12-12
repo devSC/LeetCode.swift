@@ -23,10 +23,19 @@ import UIKit
 
 class Solution {
     func reverseString(_ s: inout [Character]) {
-        print("result s: \(s)")
-         print("result s: \(s)")
+        var left = 0
+        var right = s.count - 1
+        while left < right {
+            let temp = s[left]
+            s[left] = s[right]
+            s[right] = temp
+            left += 1
+            right -= 1
+        }
     }
 }
 
 var array: [Character] = ["h","e","l","l","o"]
+Solution().reverseString(&array)
+array = Array("I am a student.")
 Solution().reverseString(&array)
