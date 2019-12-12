@@ -29,21 +29,21 @@ let node1 = ListNode(5)
 let node2 = ListNode(3)
 let node3 = ListNode(2)
 let node4 = ListNode(4)
-let node5 = ListNode(2)
+//let node5 = ListNode(2)
 
 node.next = node1
 node1.next = node2
 node2.next = node3
 node3.next = node4
-node4.next = node5
-node5.next = node2 //please test in project
+node4.next = node2
+//node5.next = node2 //please test in project
 
 class Solution {
     static func haveCycle(_ head: ListNode?) -> Bool {
         var slow = head
         var fast = head
         
-        while fast != nil && fast!.next != nil {
+        while fast != nil && fast != nil {
             slow = slow?.next
             fast = fast?.next?.next
             
