@@ -37,7 +37,25 @@ class Solution {
         }
         return -1
     }
+    func firstUniqChar2(_ s: String) -> Int {
+        var result = Array(repeating: 0, count: 26)
+        for c in s.unicodeScalars {
+            result[Int(c.value - 97)] += 1
+        }
+        
+        var index = 0
+        for c in s.unicodeScalars {
+            if result[Int(c.value - 97)] == 1 {
+                return index
+            } else {
+                index += 1
+            }
+        }
+        return -1;
+    }
 }
 
 Solution().firstUniqChar("leetcode")
 Solution().firstUniqChar("loveleetcode")
+Solution().firstUniqChar2("leetcode")
+Solution().firstUniqChar2("loveleetcode")
